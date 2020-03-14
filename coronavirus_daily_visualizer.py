@@ -7,7 +7,7 @@ import time
 
 today = time.strftime("%m/%d/%Y")[1:][:-2]
 
-df = pd.read_csv('COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/latest_saved.csv')
+df = pd.read_csv('data/latest.csv')
 
 df_sum = df
 #uniq = df['Country/Region'].unique()
