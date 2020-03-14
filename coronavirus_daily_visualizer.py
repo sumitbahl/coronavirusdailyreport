@@ -3,18 +3,22 @@ import pandas as pd
 import numpy as np
 from matplotlib import colors as mcolors
 import random
+import time
 
-df = pd.read_csv('COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/latest.csv')
+today = time.strftime("%m/%d/%Y")[1:][:-2]
+
+df = pd.read_csv('COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/latest_saved.csv')
 
 df_sum = df
 #uniq = df['Country/Region'].unique()
 uniq = ['US']
 df_final = pd.DataFrame()
 number_of_days = 4
+
 for country in uniq:
     country_code = df['Country/Region']==country
     df_coutry = df[country_code]
-    df_coutry = df_coutry.sort_values(by=['3/12/20'], ascending=False)
+    df_coutry = df_coutry.sort_values(by=[today], ascending=False)
     df_coutry = df_coutry.head(10)
 
     #print(df_coutry)
