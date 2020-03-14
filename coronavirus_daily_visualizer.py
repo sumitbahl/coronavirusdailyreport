@@ -1,17 +1,21 @@
 import matplotlib.pyplot as plt
 import pandas as pd 
-import numpy as np   
+import numpy as np
+from matplotlib import colors as mcolors
+import random
 
-df = pd.read_csv('COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/latest_1.csv')
+df = pd.read_csv('COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/latest.csv')
 
 df_sum = df
 #uniq = df['Country/Region'].unique()
 uniq = ['US']
 df_final = pd.DataFrame()
+number_of_days = 4
 for country in uniq:
     country_code = df['Country/Region']==country
     df_coutry = df[country_code]
     df_coutry = df_coutry.sort_values(by=['3/12/20'], ascending=False)
+    df_coutry = df_coutry.head(10)
 
     #print(df_coutry)
 
@@ -27,18 +31,20 @@ for country in uniq:
     print(dfToBeT)
     dfT = dfToBeT.T
     dfT['date'] = dfT.index    
-    dfT = dfT[-3:]
+    dfT = dfT[-number_of_days:]
     print(dfT)
     column_list_T = list(dfT)
     column_list_T.remove('date')
-    state_list_color = {'California' : 'cyan', 
-                'Washington': 'red',
-                 'New York': 'orange', 
-                 'Massachusetts': 'blue',
-                 'Colorado' : 'brown',
-                 'Florida' : 'gray',
-                 'New Jersey' : 'olive'}
-    for column in state_list_color:
-        plt.plot( 'date' , column, data=dfT, marker='', color=state_list_color[column], linewidth=2, label=column)
+    
+    colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
+    colors_to_draw = []
+
+    for color in mcolors.TABLEAU_COLORS:
+        colors_to_draw.append(color)
+
+    index = 0
+    for column in column_list_T:
+        plt.plot( 'date' , column, data=dfT, marker='', color=colors_to_draw[index], linewidth=2, label=column)
         plt.legend()
+        index = index + 1
     plt.show()
